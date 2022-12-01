@@ -1,16 +1,19 @@
 import React from "react";
 import { FaPlus, FaSave, FaTrash } from "react-icons/fa";
+import { uuid } from 'uuidv4';
 
-type Props = {};
+type Props = {
+  onSubmit: (note:NotesType)=>void;
+};
 
 type NotesType = {
-  id?: number;
-  title: string;
+  id: string;
+  title?: string;
   noteText: string;
   createdAt?: Date;
 };
 
-const CreateNoteCard = (props: Props) => {
+const CreateNoteCard = ({onSubmit}: Props) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [titlePlaceHolderText, setTitlePlaceHolderText] = React.useState(
     "Create a New Note..."
@@ -37,12 +40,12 @@ const CreateNoteCard = (props: Props) => {
   function prepareAndSubmit() {
     let dateTime = new Date();
     const val: NotesType = {
-      id: 1,
+      id: Date.now().toString(),
       title: titleText,
       noteText: notesText,
       createdAt: dateTime,
     };
-    alert(JSON.stringify(val));
+    onSubmit(val)
     disableEditing();
   }
 
